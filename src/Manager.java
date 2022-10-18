@@ -54,4 +54,16 @@ public class Manager {
         generatorId++;
         return generatorId;
     }
+
+    private Task getTaskById(int id) {
+        return taskMap.get(id);
+    }
+
+    private Epic getEpicById(int id) {
+        return epicsMap.get(id);
+    }
+
+    private SubTask getSubTaskById(int id) {
+        return subTaskMap.get(id);
+    }
 }

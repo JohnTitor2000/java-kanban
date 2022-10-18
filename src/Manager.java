@@ -66,4 +66,16 @@ public class Manager {
     private SubTask getSubTaskById(int id) {
         return subTaskMap.get(id);
     }
+
+    private void removeTaskById(int id) {
+        taskMap.remove(id);
+    }
+
+    private void removeEpicById(int id) {
+        ArrayList<Integer> subTaskIds = epicsMap.get(id).getSubTaskIdList();
+        for (int subTaskId : subTaskIds) {
+            subTaskMap.remove(subTaskId);
+        }
+        epicsMap.remove(id);
+    }
 }

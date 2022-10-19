@@ -16,20 +16,17 @@ public class Manager {
         taskMap = new HashMap<>();
     }
 
-    private void addTask(String title, String description) {
-        int id = idGenerator();
-        taskMap.put(id, new Task(title, description, id));
+    private void addTask(Task task) {
+        taskMap.put(task.getId(), task);
     }
 
-    private void addEpicTask(String title, String description) {
-        int id = idGenerator();
-        epicsMap.put(id, new Epic(title, description, id));
+    private void addEpicTask(Epic epic) {
+        epicsMap.put(epic.getId(), epic);
     }
 
-    private void addSubTask(int epicId, String title, String description) {
-        int id = idGenerator();
-        epicsMap.get(epicId).addSubTask(id);
-        subTaskMap.put(id, new SubTask(epicId ,title, description, id));
+    private void addSubTask(SubTask subTask) {
+        epicsMap.get(subTask.getEpicId()).addSubTask(subTask.getId());
+        subTaskMap.put(subTask.getId(), subTask);
     }
 
     private void removeAllTask() {
@@ -84,5 +81,19 @@ public class Manager {
         subTaskIdsList.remove(id);
         epicsMap.get(subTaskMap.get(id).getEpicId()).setSubTaskIdList(subTaskIdsList);
         subTaskMap.remove(id);
+    }
+
+    public void updateTask(Task task) {
+        taskMap.put(task.getId(), task);
+    }
+
+    public void updateEpic(Epic epic) {
+        ArrayList<Integer> subTasksIdList = epicsMap.get(epic.getId()).getSubTaskIdList();
+        epic.setSubTaskIdList(subTasksIdList);
+        epicsMap.put(epic.getId(), epic);
+    }
+
+    public void updateSubTask(SubTask subTask) {
+        subTaskMap.put(subTask.getId(), subTask);
     }
 }

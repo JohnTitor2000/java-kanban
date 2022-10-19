@@ -29,7 +29,7 @@ public class Manager {
     private void addSubTask(int epicId, String title, String description) {
         int id = idGenerator();
         epicsMap.get(epicId).addSubTask(id);
-        subTaskMap.put(id, new SubTask(title, description, id));
+        subTaskMap.put(id, new SubTask(epicId ,title, description, id));
     }
 
     private void removeAllTask() {
@@ -77,5 +77,12 @@ public class Manager {
             subTaskMap.remove(subTaskId);
         }
         epicsMap.remove(id);
+    }
+
+    private void removeSubTuskById(int id) {
+        ArrayList<Integer> subTaskIdsList = epicsMap.get(subTaskMap.get(id).getEpicId()).getSubTaskIdList();
+        subTaskIdsList.remove(id);
+        epicsMap.get(subTaskMap.get(id).getEpicId()).setSubTaskIdList(subTaskIdsList);
+        subTaskMap.remove(id);
     }
 }

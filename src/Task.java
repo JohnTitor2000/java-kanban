@@ -1,17 +1,19 @@
+import java.util.Objects;
+
 public class Task {
-    private static final String NEW_STATUS = "NEW";
-    private static final String IN_PROGRESS_STATUS = "IN_PROGRESS";
-    private static final String DONE_STATUS = "DONE";
-    String title;
-    String description;
-    String status;
+    protected String title;
+    protected Status status;
+    protected String description;
     int id;
 
-    public Task(String title, String description, int id) {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Task(String title, String description, Status status) {
         this.title = title;
         this.description = description;
-        this.status = NEW_STATUS;
-        this.id = id;
+        this.status = status;
     }
 
     public String getTitle() {
@@ -30,11 +32,11 @@ public class Task {
         this.description = description;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -42,7 +44,26 @@ public class Task {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task)) return false;
+        Task task = (Task) o;
+        return getId() == task.getId() && Objects.equals(getTitle(), task.getTitle()) && getStatus() == task.getStatus() && Objects.equals(getDescription(), task.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTitle(), getStatus(), getDescription(), getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "title='" + title + '\'' +
+                ", status=" + status +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

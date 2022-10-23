@@ -1,4 +1,6 @@
-package ru.yandex.practicum.tasklistapp;
+package ru.yandex.practicum.tasktracker.model;
+
+import ru.yandex.practicum.tasktracker.Status;
 
 import java.util.Objects;
 
@@ -10,12 +12,6 @@ public class Task {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Task(String title, String description, Status status) {
-        this.title = title;
-        this.description = description;
-        this.status = status;
     }
 
     public String getTitle() {

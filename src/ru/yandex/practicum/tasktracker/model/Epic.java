@@ -1,4 +1,6 @@
-package ru.yandex.practicum.tasklistapp;
+package ru.yandex.practicum.tasktracker.model;
+
+import ru.yandex.practicum.tasktracker.Status;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -6,10 +8,6 @@ import java.util.Objects;
 public class Epic extends Task {
 
     private ArrayList<Integer> subTaskIds = new ArrayList<>();
-
-    public Epic(String title, String description, Status status) {
-        super(title, description, status);
-    }
 
     public ArrayList<Integer> getSubTaskIds() {
         return subTaskIds;
@@ -23,15 +21,16 @@ public class Epic extends Task {
         subTaskIds.add(id);
     }
 
+    public void clearSubTaskIds() {
+        subTaskIds.clear();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Epic)) {
-            return false;
-        }
-        if (!(super.equals(o))) {
+        if (!(o instanceof Epic) || !(super.equals(o))) {
             return false;
         }
         Epic epic = (Epic) o;
@@ -40,7 +39,7 @@ public class Epic extends Task {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getSubTaskIds()) * super.hashCode();
+        return Objects.hash(getSubTaskIds(), super.hashCode());
     }
 
     @Override

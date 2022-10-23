@@ -1,4 +1,9 @@
-package ru.yandex.practicum.tasklistapp;
+package ru.yandex.practicum.tasktracker.manger;
+
+import ru.yandex.practicum.tasktracker.Status;
+import ru.yandex.practicum.tasktracker.model.Epic;
+import ru.yandex.practicum.tasktracker.model.SubTask;
+import ru.yandex.practicum.tasktracker.model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,44 +22,36 @@ public class TaskManager {
         tasks = new HashMap<>();
     }
 
-    public ArrayList<Task> getTaskList() {
-        ArrayList<Task> task = (ArrayList<Task>) tasks.values();
-        return task;
+    public ArrayList<Task> getTasks() {
+        return new ArrayList<>(tasks.values());
     }
 
-    public ArrayList<Epic> getEpicList() {
-        ArrayList<Epic> epicList = new ArrayList<>();
-        for (int id : epics.keySet()) {
-            epicList.add(epics.get(id));
-        }
-        return epicList;
+    public ArrayList<Epic> getEpics() {
+        return new ArrayList<>(epics.values());
     }
 
-    public ArrayList<SubTask> getSubTaskList() {
-        ArrayList<SubTask> subTaskList = new ArrayList<>();
-        for (int id : subTasks.keySet()) {
-            subTaskList.add(subTasks.get(id));
-        }
-        return subTaskList;
+    public ArrayList<SubTask> getSubTasks() {
+        return new ArrayList<>(subTasks.values());
     }
 
     public void addTask(Task task) {
-        task.setId(idGenerator());
+        task.setId(generateId());
         tasks.put(task.getId(), task);
     }
 
     public void addEpicTask(Epic epic) {
-        epic.setId(idGenerator());
+        epic.setId(generateId());
         epics.put(epic.getId(), epic);
     }
 
     public void addSubTask(SubTask subTask) {
-        subTask.setId(idGenerator());
+        subTask.setId(generateId());
         epics.get(subTask.getEpicId()).addSubTaskId(subTask.getId());
         subTasks.put(subTask.getId(), subTask);
+        updateEpicStatus(subTask.getEpicId());
     }
 
-    public void removeAllTask() {
+    public void removeAllTasks() {
         tasks.clear();
     }
 
@@ -63,15 +60,14 @@ public class TaskManager {
         epics.clear();
     }
 
-    public void removeAllSubTask() {
+    public void removeAllSubTasks() {
         subTasks.clear();
-        ArrayList<Epic> epicsToRemoveSubTasks = (ArrayList<Epic>) epics.values();
-        for (Epic epic : epicsToRemoveSubTasks) {
+        for (Epic epic : epics.values()) {
             epic.getSubTaskIds().clear();
         }
     }
 
-    public int idGenerator() {
+    public int generateId() {
         generatorId++;
         return generatorId;
     }
@@ -100,10 +96,11 @@ public class TaskManager {
         epics.remove(id);
     }
 
-    public void removeSubTuskById(int id) {
+    public void removeSubTaskById(int id) {
         ArrayList<Integer> subTaskIdsList = epics.get(subTasks.get(id).getEpicId()).getSubTaskIds();
         subTaskIdsList.remove(subTaskIdsList.indexOf(id));
         subTasks.remove(id);
+        updateEpicStatus(subTasks.get(id).getEpicId());
     }
 
     public void updateTask(Task task, int id) {
@@ -120,7 +117,11 @@ public class TaskManager {
     public void updateSubTask(SubTask subTask, int id) {
         subTask.setId(id);
         subTasks.put(subTask.getId(), subTask);
-        Epic epic = epics.get(subTask.getEpicId());
+        updateEpicStatus(subTask.getEpicId());
+    }
+
+    private void updateEpicStatus(int epicId) {
+        Epic epic = epics.get(epicId);
         ArrayList<Integer> subTaskIdsList = epic.getSubTaskIds();
         int countDone = 0;
         int countInProgress = 0;
@@ -149,13 +150,13 @@ public class TaskManager {
         epics.put(epic.getId(), epic);
     }
 
-    public ArrayList<SubTask> getSubTaskByEpic (int epicId) {
-        ArrayList<SubTask> subTasksForReturn = new ArrayList<>();
-        for(SubTask subTask : subTasks.values()) {
+    public ArrayList<SubTask> getSubTasksByEpicId(int epicId) {
+        ArrayList<SubTask> subTasks = new ArrayList<>();
+        for(SubTask subTask : this.subTasks.values()) {
             if (subTask.getEpicId() == epicId) {
-                subTasksForReturn.add(subTask);
+                subTasks.add(subTask);
             }
         }
-        return subTasksForReturn;
+        return subTasks;
     }
 }

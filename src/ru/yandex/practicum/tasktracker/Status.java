@@ -1,4 +1,4 @@
-package ru.yandex.practicum.tasklistapp;
+package ru.yandex.practicum.tasktracker;
 
 public enum Status {
     NEW,

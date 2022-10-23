@@ -1,3 +1,5 @@
+package ru.yandex.practicum.tasklistapp;
+
 import java.util.Objects;
 
 public class SubTask extends Task{
@@ -9,20 +11,27 @@ public class SubTask extends Task{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof SubTask)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof SubTask)) {
+            return false;
+        }
+        if (!(super.equals(o))) {
+            return false;
+        }
         SubTask subTask = (SubTask) o;
         return getEpicId() == subTask.getEpicId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getEpicId());
+        return Objects.hash(getEpicId()) * super.hashCode();
     }
 
     @Override
     public String toString() {
-        return "SubTask{" +
+        return "ru.yandex.practicum.tasklistapp.SubTask{" +
                 "epicId=" + epicId +
                 ", title='" + title + '\'' +
                 ", status=" + status +

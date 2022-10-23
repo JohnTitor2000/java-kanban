@@ -1,16 +1,18 @@
+package ru.yandex.practicum.tasklistapp;
+
 public class Main {
 
     public static void main(String[] args) {
-        Manager manager = new Manager();
+        TaskManager manager = new TaskManager();
         manager.addTask(new Task("Приготовить завтрак", "Приготовить завтрак", Status.NEW));
         System.out.println(manager.getTaskById(1));
         manager.addTask(new Task("Убраться в комнате", "Убраться в квартире", Status.NEW));
         System.out.println(manager.getTaskById(2));
-        manager.addEpicTask(new Epic("Отвести кота к ветиренару", "Подавился"));
+        //manager.addEpicTask(new Epic("Отвести кота к ветиренару", "Подавился"));
         System.out.println(manager.getEpicById(3));
         manager.addSubTask(new SubTask(3, "Взять кота", "Бери", Status.NEW));
         manager.addSubTask(new SubTask(3, "Отвезти к ветеринару", "Пусть лечит", Status.NEW));
-        manager.addEpicTask(new Epic("Попить чай", "Попей чай"));
+        //manager.addEpicTask(new Epic("Попить чай", "Попей чай"));
         manager.addSubTask(new SubTask(6, "Заварить чай", "Азерчай", Status.NEW));
         for (Task task : manager.getTaskList()) {
             System.out.println(task);

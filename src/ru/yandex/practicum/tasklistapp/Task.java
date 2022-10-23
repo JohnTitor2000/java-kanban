@@ -1,3 +1,5 @@
+package ru.yandex.practicum.tasklistapp;
+
 import java.util.Objects;
 
 public class Task {
@@ -49,7 +51,10 @@ public class Task {
         if (this == o) return true;
         if (!(o instanceof Task)) return false;
         Task task = (Task) o;
-        return getId() == task.getId() && Objects.equals(getTitle(), task.getTitle()) && getStatus() == task.getStatus() && Objects.equals(getDescription(), task.getDescription());
+        return getId() == task.getId()
+                && Objects.equals(getTitle(), task.getTitle())
+                && getStatus() == task.getStatus()
+                && Objects.equals(getDescription(), task.getDescription());
     }
 
     @Override
@@ -59,7 +64,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "ru.yandex.practicum.tasklistapp.Task{" +
                 "title='" + title + '\'' +
                 ", status=" + status +
                 ", description='" + description + '\'' +

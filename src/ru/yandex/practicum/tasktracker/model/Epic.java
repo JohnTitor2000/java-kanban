@@ -1,7 +1,5 @@
 package ru.yandex.practicum.tasktracker.model;
 
-import ru.yandex.practicum.tasktracker.Status;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -21,7 +19,7 @@ public class Epic extends Task {
         subTaskIds.add(id);
     }
 
-    public void clearSubTaskIds() {
+    public void clearSubtaskIds() {
         subTaskIds.clear();
     }
 
@@ -44,12 +42,12 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "ru.yandex.practicum.tasklistapp.Epic{" +
+        return "Epic{" +
                 "subTaskIdList=" + subTaskIds +
-                ", title='" + title + '\'' +
-                ", status=" + status +
-                ", description='" + description + '\'' +
-                ", id=" + id +
+                ", title='" + super.getTitle() + '\'' +
+                ", status=" + super.getStatus() +
+                ", description='" + super.getDescription() + '\'' +
+                ", id=" + super.getId() +
                 '}';
     }
 }

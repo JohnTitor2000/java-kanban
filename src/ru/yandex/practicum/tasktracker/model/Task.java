@@ -1,14 +1,12 @@
 package ru.yandex.practicum.tasktracker.model;
 
-import ru.yandex.practicum.tasktracker.Status;
-
 import java.util.Objects;
 
 public class Task {
-    protected String title;
-    protected Status status;
-    protected String description;
-    int id;
+    private String title;
+    private Status status;
+    private String description;
+    private int id;
 
     public void setId(int id) {
         this.id = id;
@@ -44,8 +42,12 @@ public class Task {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Task)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Task)) {
+            return false;
+        }
         Task task = (Task) o;
         return getId() == task.getId()
                 && Objects.equals(getTitle(), task.getTitle())

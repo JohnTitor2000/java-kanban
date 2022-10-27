@@ -2,8 +2,8 @@ package ru.yandex.practicum.tasktracker.model;
 
 import java.util.Objects;
 
-public class SubTask extends Task{
-    int epicId;
+public class SubTask extends Task {
+    private int epicId;
 
     public int getEpicId() {
         return epicId;
@@ -14,7 +14,7 @@ public class SubTask extends Task{
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Epic) || !(super.equals(o))) {
+        if (!(o instanceof SubTask) || !(super.equals(o))) {
             return false;
         }
         SubTask subTask = (SubTask) o;
@@ -30,10 +30,10 @@ public class SubTask extends Task{
     public String toString() {
         return "ru.yandex.practicum.tasklistapp.SubTask{" +
                 "epicId=" + epicId +
-                ", title='" + title + '\'' +
-                ", status=" + status +
-                ", description='" + description + '\'' +
-                ", id=" + id +
+                ", title='" + super.getTitle() + '\'' +
+                ", status=" + super.getStatus() +
+                ", description='" + super.getDescription() + '\'' +
+                ", id=" + super.getId() +
                 '}';
     }
 }

@@ -1,50 +1,51 @@
 package ru.yandex.practicum.tasktracker.manger;
 
-import ru.yandex.practicum.tasktracker.model.Status;
 import ru.yandex.practicum.tasktracker.model.Epic;
 import ru.yandex.practicum.tasktracker.model.SubTask;
 import ru.yandex.practicum.tasktracker.model.Task;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Queue;
 
 public interface TaskManager {
 
-    public ArrayList<Task> getTasks();
+    ArrayList<Task> getTasks();
 
-    public ArrayList<Epic> getEpics();
+    ArrayList<Epic> getEpics();
 
-    public ArrayList<SubTask> getSubTasks();
+    ArrayList<SubTask> getSubTasks();
 
-    public void addTask(Task task);
+    void addTask(Task task);
 
-    public void addEpic(Epic epic);
+    void addEpic(Epic epic);
 
-    public void addSubTask(SubTask subTask);
+    void addSubTask(SubTask subTask);
 
-    public void removeAllTasks();
+    void removeAllTasks();
 
-    public void removeAllEpics();
+    void removeAllEpics();
 
-    public void removeAllSubTasks();
+    void removeAllSubTasks();
 
-    public Task getTaskById(int id);
+    Task getTaskById(int id);
 
-    public Epic getEpicById(int id);
+    Epic getEpicById(int id);
 
-    public SubTask getSubTaskById(int id);
+    SubTask getSubTaskById(int id);
 
-    public void removeTaskById(int id);
+    void removeTaskById(int id);
 
-    public void removeEpicById(int id);
+    void removeEpicById(int id);
 
-    public void removeSubTaskById(int id);
+    void removeSubTaskById(int id);
 
-    public void updateTask(Task task);
+    void updateTask(Task task);
 
-    public void updateEpic(Epic epic);
+    void updateEpic(Epic epic);
 
-    public void updateSubTask(SubTask subTask);
+    void updateSubTask(SubTask subTask);
 
-    public ArrayList<SubTask> getSubTasksByEpicId(int epicId);
+    ArrayList<SubTask> getSubTasksByEpicId(int epicId);
+
+    Queue<Task> getHistory();
 }

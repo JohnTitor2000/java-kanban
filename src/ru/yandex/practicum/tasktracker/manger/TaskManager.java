@@ -5,15 +5,16 @@ import ru.yandex.practicum.tasktracker.model.SubTask;
 import ru.yandex.practicum.tasktracker.model.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 
 public interface TaskManager {
 
-    ArrayList<Task> getTasks();
+    List<Task> getTasks();
 
-    ArrayList<Epic> getEpics();
+    List<Epic> getEpics();
 
-    ArrayList<SubTask> getSubTasks();
+    List<SubTask> getSubTasks();
 
     void addTask(Task task);
 
@@ -45,7 +46,5 @@ public interface TaskManager {
 
     void updateSubTask(SubTask subTask);
 
-    ArrayList<SubTask> getSubTasksByEpicId(int epicId);
-
-    Queue<Task> getHistory();
+    List<SubTask> getSubTasksByEpicId(int epicId);
 }

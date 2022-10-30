@@ -5,18 +5,14 @@ import ru.yandex.practicum.tasktracker.model.Status;
 import ru.yandex.practicum.tasktracker.model.SubTask;
 import ru.yandex.practicum.tasktracker.model.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager{
     static int generatorId;
-    private static HistoryManager historyManager = new Managers().getDefaoultHistory();
-    private static Queue<Task> history = new LinkedList<>();
-    private final HashMap<Integer, SubTask> subTasks;
-    private final HashMap<Integer, Epic> epics;
-    private final HashMap<Integer, Task> tasks;
+    private HistoryManager historyManager = new Managers().getDefaultHistory();
+    private final Map<Integer, SubTask> subTasks;
+    private final Map<Integer, Epic> epics;
+    private final Map<Integer, Task> tasks;
 
     public InMemoryTaskManager() {
         subTasks = new HashMap<>();
@@ -86,19 +82,19 @@ public class InMemoryTaskManager implements TaskManager{
 
     @Override
     public Task getTaskById(int id) {
-        addNewHistoryElement(tasks.get(id));
+        historyManager.add(tasks.get(id));
         return tasks.get(id);
     }
 
     @Override
     public Epic getEpicById(int id) {
-        addNewHistoryElement(epics.get(id));
+        historyManager.add(epics.get(id));
         return epics.get(id);
     }
 
     @Override
     public SubTask getSubTaskById(int id) {
-        addNewHistoryElement(subTasks.get(id));
+        historyManager.add(subTasks.get(id));
         return subTasks.get(id);
     }
 
@@ -109,7 +105,7 @@ public class InMemoryTaskManager implements TaskManager{
 
     @Override
     public void removeEpicById(int id) {
-        ArrayList<Integer> subTaskIds = epics.get(id).getSubTaskIds();
+        List<Integer> subTaskIds = epics.get(id).getSubTaskIds();
         for (int subTaskId : subTaskIds) {
             subTasks.remove(subTaskId);
         }
@@ -118,7 +114,7 @@ public class InMemoryTaskManager implements TaskManager{
 
     @Override
     public void removeSubTaskById(int id) {
-        ArrayList<Integer> subTaskIds    = epics.get(subTasks.get(id).getEpicId()).getSubTaskIds();
+        List<Integer> subTaskIds    = epics.get(subTasks.get(id).getEpicId()).getSubTaskIds();
         subTaskIds.remove(subTaskIds.indexOf(id));
         subTasks.remove(id);
         updateEpicStatus(subTasks.get(id).getEpicId());
@@ -131,7 +127,7 @@ public class InMemoryTaskManager implements TaskManager{
 
     @Override
     public void updateEpic(Epic epic) {
-        ArrayList<Integer> subTasksIds = epics.get(epic.getId()).getSubTaskIds();
+        List<Integer> subTasksIds = epics.get(epic.getId()).getSubTaskIds();
         epic.setSubTaskIds(subTasksIds);
         epics.put(epic.getId(), epic);
     }
@@ -143,8 +139,8 @@ public class InMemoryTaskManager implements TaskManager{
     }
 
     @Override
-    public ArrayList<SubTask> getSubTasksByEpicId(int epicId) {
-        ArrayList<SubTask> subTasks = new ArrayList<>();
+    public List<SubTask> getSubTasksByEpicId(int epicId) {
+        List<SubTask> subTasks = new ArrayList<>();
         for(SubTask subTask : this.subTasks.values()) {
             if (subTask.getEpicId() == epicId) {
                 subTasks.add(subTask);
@@ -153,13 +149,9 @@ public class InMemoryTaskManager implements TaskManager{
         return subTasks;
     }
 
-    public Queue<Task> getHistory() {
-        return historyManager.getHistory();
-    }
-
     private void updateEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
-        ArrayList<Integer> subTaskIds = epic.getSubTaskIds();
+        List<Integer> subTaskIds = epic.getSubTaskIds();
         int countDone = 0;
         int countInProgress = 0;
         int countNew = 0;
@@ -185,9 +177,5 @@ public class InMemoryTaskManager implements TaskManager{
             epic.setStatus(Status.NEW);
         }
         epics.put(epic.getId(), epic);
-    }
-
-    private static void addNewHistoryElement(Task task) {
-        historyManager.add(task);
     }
 }

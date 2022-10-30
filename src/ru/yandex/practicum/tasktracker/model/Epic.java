@@ -1,18 +1,24 @@
 package ru.yandex.practicum.tasktracker.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class Epic extends Task {
 
     private ArrayList<Integer> subTaskIds = new ArrayList<>();
 
-    public ArrayList<Integer> getSubTaskIds() {
-        return subTaskIds;
+    public List<Integer> getSubTaskIds() {
+        return Collections.unmodifiableList(subTaskIds);
     }
 
-    public void setSubTaskIds(ArrayList<Integer> subTaskIds) {
-        this.subTaskIds = subTaskIds;
+    public void setSubTaskIds(List<Integer> subTaskIds) {
+        this.subTaskIds = (ArrayList<Integer>) subTaskIds;
+    }
+
+    public void removeSubtaskId(Integer id) {
+        subTaskIds.remove(id);
     }
 
     public void addSubTaskId(Integer id) {

@@ -4,9 +4,7 @@ import ru.yandex.practicum.tasktracker.model.Epic;
 import ru.yandex.practicum.tasktracker.model.SubTask;
 import ru.yandex.practicum.tasktracker.model.Task;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 public interface TaskManager {
 
@@ -47,4 +45,6 @@ public interface TaskManager {
     void updateSubTask(SubTask subTask);
 
     List<SubTask> getSubTasksByEpicId(int epicId);
+
+    List<Task> getHistory();
 }

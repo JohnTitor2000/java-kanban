@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class Epic extends Task {
 
-    private ArrayList<Integer> subTaskIds = new ArrayList<>();
+    private List<Integer> subTaskIds = new ArrayList<>();
 
     public List<Integer> getSubTaskIds() {
         return Collections.unmodifiableList(subTaskIds);

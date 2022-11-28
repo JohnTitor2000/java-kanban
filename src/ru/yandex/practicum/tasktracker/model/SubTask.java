@@ -32,7 +32,7 @@ public class SubTask extends Task {
 
     @Override
     public String toString() {
-        return "ru.yandex.practicum.tasklistapp.SubTask{" +
+        return "SubTask{" +
                 "epicId=" + epicId +
                 ", title='" + super.getTitle() + '\'' +
                 ", status=" + super.getStatus() +

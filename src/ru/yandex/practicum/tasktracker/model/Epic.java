@@ -7,14 +7,10 @@ import java.util.Objects;
 
 public class Epic extends Task {
 
-    private List<Integer> subTaskIds = new ArrayList<>();
+    final private List<Integer> subTaskIds = new ArrayList<>();
 
     public List<Integer> getSubTaskIds() {
         return Collections.unmodifiableList(subTaskIds);
-    }
-
-    public void setSubTaskIds(List<Integer> subTaskIds) {
-        this.subTaskIds = (ArrayList<Integer>) subTaskIds;
     }
 
     public void removeSubtaskId(Integer id) {
@@ -50,10 +46,10 @@ public class Epic extends Task {
     public String toString() {
         return "Epic{" +
                 "subTaskIdList=" + subTaskIds +
-                ", title='" + super.getTitle() + '\'' +
-                ", status=" + super.getStatus() +
-                ", description='" + super.getDescription() + '\'' +
-                ", id=" + super.getId() +
+                ", title='" + getTitle() + '\'' +
+                ", status=" + getStatus() +
+                ", description='" + getDescription() + '\'' +
+                ", id=" + getId() +
                 '}';
     }
 }

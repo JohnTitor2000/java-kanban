@@ -1,4 +1,4 @@
-package ru.yandex.practicum.tasktracker.manger;
+package ru.yandex.practicum.tasktracker.manager;
 
 import ru.yandex.practicum.tasktracker.model.Epic;
 import ru.yandex.practicum.tasktracker.model.Status;
@@ -117,6 +117,7 @@ public class InMemoryTaskManager implements TaskManager{
         List<Integer> subTaskIds = epics.get(id).getSubTaskIds();
         for (int subTaskId : subTaskIds) {
             subTasks.remove(subTaskId);
+            historyManager.remove(subTaskId);
         }
         epics.remove(id);
     }

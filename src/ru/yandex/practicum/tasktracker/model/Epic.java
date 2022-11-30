@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class Epic extends Task {
 
-    final private List<Integer> subTaskIds = new ArrayList<>();
+    private final List<Integer> subTaskIds = new ArrayList<>();
 
     public List<Integer> getSubTaskIds() {
         return Collections.unmodifiableList(subTaskIds);
@@ -27,9 +27,6 @@ public class Epic extends Task {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
         if (!(o instanceof Epic) || !(super.equals(o))) {
             return false;
         }

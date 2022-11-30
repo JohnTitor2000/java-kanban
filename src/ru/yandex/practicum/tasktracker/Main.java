@@ -1,7 +1,6 @@
 package ru.yandex.practicum.tasktracker;
 
-import ru.yandex.practicum.tasktracker.manger.InMemoryTaskManager;
-import ru.yandex.practicum.tasktracker.model.Task;
+import ru.yandex.practicum.tasktracker.manager.InMemoryTaskManager;
 
 class Main {
     public static void main(String[] args) {

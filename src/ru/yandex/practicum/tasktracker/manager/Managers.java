@@ -1,4 +1,4 @@
-package ru.yandex.practicum.tasktracker.manger;
+package ru.yandex.practicum.tasktracker.manager;
 
 public class Managers {
     public static TaskManager getDefault() {

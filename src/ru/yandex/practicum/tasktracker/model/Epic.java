@@ -25,6 +25,10 @@ public class Epic extends Task {
         subTaskIds.clear();
     }
 
+    public Type getTyte() {
+        return Type.EPIC;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Epic) || !(super.equals(o))) {

@@ -13,6 +13,10 @@ public class SubTask extends Task {
         this.epicId = epicId;
     }
 
+    public Type getTyte() {
+        return Type.SUBTASK;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

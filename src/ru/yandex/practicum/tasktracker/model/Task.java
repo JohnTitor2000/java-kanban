@@ -16,6 +16,10 @@ public class Task {
         return title;
     }
 
+    public Type getTyte() {
+        return Type.TASK;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }

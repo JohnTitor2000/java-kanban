@@ -1,7 +1,6 @@
 package ru.yandex.practicum.tasktracker.manager;
 
 import ru.yandex.practicum.tasktracker.model.Epic;
-import ru.yandex.practicum.tasktracker.model.ManagerSaveException;
 import ru.yandex.practicum.tasktracker.model.SubTask;
 import ru.yandex.practicum.tasktracker.model.Task;
 
@@ -15,37 +14,37 @@ public interface TaskManager {
 
     List<SubTask> getSubTasks();
 
-    void addTask(Task task) throws ManagerSaveException;
+    void addTask(Task task);
 
-    void addEpic(Epic epic) throws ManagerSaveException;
+    void addEpic(Epic epic);
 
-    void addSubTask(SubTask subTask) throws ManagerSaveException;
+    void addSubTask(SubTask subTask);
 
-    void removeAllTasks() throws ManagerSaveException;
+    void removeAllTasks();
 
-    void removeAllEpics() throws ManagerSaveException;
+    void removeAllEpics();
 
-    void removeAllSubTasks() throws ManagerSaveException;
+    void removeAllSubTasks();
 
-    Task getTaskById(int id) throws ManagerSaveException;
+    Task getTaskById(int id);
 
-    Epic getEpicById(int id) throws ManagerSaveException;
+    Epic getEpicById(int id);
 
-    SubTask getSubTaskById(int id) throws ManagerSaveException;
+    SubTask getSubTaskById(int id);
 
-    void removeTaskById(int id) throws ManagerSaveException;
+    void removeTaskById(int id);
 
-    void removeEpicById(int id) throws ManagerSaveException;
+    void removeEpicById(int id);
 
-    void removeSubTaskById(int id) throws ManagerSaveException;
+    void removeSubTaskById(int id);
 
-    void updateTask(Task task) throws ManagerSaveException;
+    void updateTask(Task task);
 
-    void updateEpic(Epic epic) throws ManagerSaveException;
+    void updateEpic(Epic epic);
 
-    void updateSubTask(SubTask subTask) throws ManagerSaveException;
+    void updateSubTask(SubTask subTask);
 
-    List<SubTask> getSubTasksByEpicId(int epicId) throws ManagerSaveException;
+    List<SubTask> getSubTasksByEpicId(int epicId);
 
     List<Task> getHistory();
 }

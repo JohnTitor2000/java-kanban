@@ -1,7 +1,6 @@
 package ru.yandex.practicum.tasktracker.manager;
 
 import ru.yandex.practicum.tasktracker.model.Epic;
-import ru.yandex.practicum.tasktracker.model.ManagerSaveException;
 import ru.yandex.practicum.tasktracker.model.Status;
 import ru.yandex.practicum.tasktracker.model.SubTask;
 import ru.yandex.practicum.tasktracker.model.Task;
@@ -13,11 +12,6 @@ import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager{
     private static int generatorId;
-
-    public HistoryManager getHistoryManager() {
-        return historyManager;
-    }
-
     private final HistoryManager historyManager;
     private final Map<Integer, SubTask> subTasks;
     private final Map<Integer, Epic> epics;
@@ -28,6 +22,10 @@ public class InMemoryTaskManager implements TaskManager{
         epics = new HashMap<>();
         tasks = new HashMap<>();
         historyManager = Managers.getDefaultHistory();
+    }
+
+    public HistoryManager getHistoryManager() {
+        return historyManager;
     }
 
     @Override

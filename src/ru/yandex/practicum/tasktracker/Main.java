@@ -1,4 +1,5 @@
-package ru.yandex.practicum.tasktracker.manager;
+package ru.yandex.practicum.tasktracker;
+
 import ru.yandex.practicum.tasktracker.model.Task;
 
 class Main {

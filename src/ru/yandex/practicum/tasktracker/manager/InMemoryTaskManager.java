@@ -11,20 +11,16 @@ import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
     protected static int generatorId;
-    private final HistoryManager historyManager;
-    private final Map<Integer, SubTask> subTasks;
-    private final Map<Integer, Epic> epics;
-    private final Map<Integer, Task> tasks;
+    protected final HistoryManager historyManager;
+    protected final Map<Integer, SubTask> subTasks;
+    protected final Map<Integer, Epic> epics;
+    protected final Map<Integer, Task> tasks;
 
     public InMemoryTaskManager() {
         subTasks = new HashMap<>();
         epics = new HashMap<>();
         tasks = new HashMap<>();
         historyManager = Managers.getDefaultHistory();
-    }
-
-    protected HistoryManager getHistoryManager() {
-        return historyManager;
     }
 
     @Override
@@ -163,6 +159,22 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
+    }
+
+    protected HistoryManager getHistoryManager() {
+        return historyManager;
+    }
+
+    protected Map<Integer, Task> getTasksMap() {
+        return tasks;
+    }
+
+    protected Map<Integer, Epic> getEpicsMap() {
+        return epics;
+    }
+
+    protected Map<Integer, SubTask> getSubTasksMap() {
+        return subTasks;
     }
 
     private void updateEpicStatus(int epicId) {

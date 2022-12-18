@@ -16,8 +16,8 @@ public class Task {
         return title;
     }
 
-    public Type getTyte() {
-        return Type.TASK;
+    public TaskType getType() {
+        return TaskType.TASK;
     }
 
     public void setTitle(String title) {

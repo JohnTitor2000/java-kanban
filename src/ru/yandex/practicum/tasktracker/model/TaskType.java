@@ -1,6 +1,6 @@
 package ru.yandex.practicum.tasktracker.model;
 
-public enum Type {
+public enum TaskType {
     TASK,
     EPIC,
     SUBTASK

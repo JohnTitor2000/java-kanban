@@ -141,11 +141,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             HistoryManager historyManager = fileBackedTasksManager.getHistoryManager();
             List<Integer> history = historyFromString(reader.readLine());
             for (int id : history) {
-                if (fileBackedTasksManager.getTasksMap().keySet().contains(id)) {
+                if (fileBackedTasksManager.getTasksWithIds().containsKey(id)) {
                     historyManager.add(fileBackedTasksManager.getTaskById(id));
-                } else if (fileBackedTasksManager.getEpicsMap().keySet().contains(id)) {
+                } else if (fileBackedTasksManager.getEpicsWithIds().containsKey(id)) {
                     historyManager.add(fileBackedTasksManager.getEpicById(id));
-                } else if (fileBackedTasksManager.getSubTasksMap().keySet().contains(id)) {
+                } else if (fileBackedTasksManager.getSubTasksWithIds().containsKey(id)) {
                     historyManager.add(fileBackedTasksManager.getSubTaskById(id));
                 }
             }
@@ -206,17 +206,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
         task.setId(Integer.parseInt(values[0]));
         task.setTitle(values[2]);
-        switch (Status.valueOf(values[3])) {
-            case NEW:
-                task.setStatus(Status.NEW);
-                break;
-            case IN_PROGRESS:
-                task.setStatus(Status.IN_PROGRESS);
-                break;
-            default:
-                task.setStatus(Status.DONE);
-                break;
-        }
+        task.setStatus(Status.valueOf(values[3]));
         task.setDescription(values[4]);
         if (values[1].equals("SUBTASK")) {
             SubTask subTask = (SubTask) task;
@@ -242,7 +232,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private static List<Integer> historyFromString(String value) {
         String[] values = value.split(",");
         List<Integer> history = new ArrayList<>();
-        for(String id : values){
+        for (String id : values){
             history.add(Integer.parseInt(id));
         }
         return history;

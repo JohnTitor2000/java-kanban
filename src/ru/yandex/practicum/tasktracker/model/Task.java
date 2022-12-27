@@ -1,5 +1,7 @@
 package ru.yandex.practicum.tasktracker.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -7,6 +9,35 @@ public class Task {
     private Status status;
     private String description;
     private int id;
+    private Duration duration;
+    private LocalDateTime startTime;
+
+    public Task() {
+        status = Status.NEW;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        if (startTime == null) {
+            return LocalDateTime.MIN;
+        }
+        return startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return startTime.plus(duration);
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
 
     public void setId(int id) {
         this.id = id;

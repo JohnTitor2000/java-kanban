@@ -1,13 +1,28 @@
 package ru.yandex.practicum.tasktracker.model;
 
+import ru.yandex.practicum.tasktracker.manager.FileBackedTasksManager;
+
+import java.io.File;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Epic extends Task {
 
     private final List<Integer> subTaskIds = new ArrayList<>();
+
+    public Epic() {
+        super();
+    }
+
+    @Override
+    public Duration getDuration() {
+        return Duration.between(getStartTime(), getEndTime());
+    }
 
     public List<Integer> getSubTaskIds() {
         return Collections.unmodifiableList(subTaskIds);

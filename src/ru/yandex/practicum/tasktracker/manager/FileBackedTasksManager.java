@@ -11,75 +11,34 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private static final String CVS_HEADER = "id,type,name,status,description,epic";
-    private final TreeSet<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime).thenComparing(Task::getId));
     public final File file;
 
     public FileBackedTasksManager(File file){
         this.file = file;
     }
 
-    public TreeSet<Task> getPrioritizedTasks(){
-        return prioritizedTasks;
-    }
-
     @Override
     public void addTask(Task task) {
-        if(checkIntersections(task)) {
-            System.out.println("Выберите другой временой интервал");
-            return;
-        }
         super.addTask(task);
-        if(task.getStartTime() == null) {
-            task.setStartTime(LocalDateTime.MIN);
-        }
-        prioritizedTasks.add(task);
         save();
     }
 
     @Override
     public void addEpic(Epic epic) {
-        if(checkIntersections(epic)) {
-            System.out.println("Выберите другой временой интервал");
-            return;
-        }
         super.addEpic(epic);
         save();
     }
 
     @Override
     public void addSubTask(SubTask subTask) {
-        if(checkIntersections(subTask)) {
-            System.out.println("Выберите другой временой интервал");
-            return;
-        }
         super.addSubTask(subTask);
-        prioritizedTasks.add(subTask);
         save();
-    }
-
-    public LocalDateTime getEpicStartTime(Epic epic) {
-        LocalDateTime startTime = LocalDateTime.MAX;
-        FileBackedTasksManager fileBackedTasksManager = this;
-        Map<Integer, SubTask> subTasks = fileBackedTasksManager.getSubTasksWithIds();
-        for(Integer id : epic.getSubTaskIds()) {
-            if (subTasks.get(id).getStartTime().isBefore(startTime)) {
-                startTime = subTasks.get(id).getStartTime();
-            }
-        }
-        if (startTime == LocalDateTime.MAX) {
-            return  null;
-        }
-        return startTime;
     }
 
     @Override
@@ -109,7 +68,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     @Override
     public Epic getEpicById(int id) {
-        Epic epic =  super.getEpicById(id);
+        Epic epic = super.getEpicById(id);
         save();
         return epic;
     }
@@ -197,6 +156,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         } catch (IOException e) {
             throw new ManagerSaveException("File reading error", e);
         }
+        for (SubTask subTask : fileBackedTasksManager.getSubTasks()) {
+            fileBackedTasksManager.getEpicById(subTask.getEpicId()).addSubTaskId(subTask.getId());
+        }
         generatorId = maxId;
         return fileBackedTasksManager;
     }
@@ -223,10 +185,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private String toString(Task task) {
         StringBuilder line = new StringBuilder();
         line.append(task.getId() + ",")
-                .append(task.getType() + ",")
-                .append(task.getTitle() + ",")
-                .append(task.getStatus() + ",")
-                .append(task.getDescription() + ",");
+            .append(task.getType() + ",")
+            .append(task.getTitle() + ",")
+            .append(task.getStatus() + ",")
+            .append(task.getDescription() + ",");
         if (task.getType() == TaskType.SUBTASK) {
             SubTask sb = (SubTask) task;
             line.append(sb.getEpicId() + ",");
@@ -280,41 +242,5 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             history.add(Integer.parseInt(id));
         }
         return history;
-    }
-
-    private boolean checkIntersections(Task newTask) {
-        LocalDateTime startTime = newTask.getStartTime();
-        if(startTime == null || startTime == LocalDateTime.MIN) {
-            return false;
-        }
-        TreeSet<Task> tasks = getPrioritizedTasks();
-        for (Task task : tasks) {
-            if(task.getStartTime() == null) {
-                continue;
-            }
-            if((startTime.isBefore(task.getEndTime()) && startTime.isAfter(task.getStartTime())) ||
-            newTask.getEndTime().isBefore(task.getEndTime()) && newTask.getEndTime().isAfter(task.getStartTime())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public LocalDateTime getEpicEndTime(Epic epic) {
-        LocalDateTime endTime = LocalDateTime.MIN;
-        FileBackedTasksManager fileBackedTasksManager = this;
-        Map<Integer, SubTask> subTasks = fileBackedTasksManager.getSubTasksWithIds();
-        for(Integer id : epic.getSubTaskIds()) {
-            if (subTasks.get(id).getEndTime() == null) {
-                continue;
-            }
-            if (subTasks.get(id).getEndTime().isAfter(endTime)) {
-                endTime = subTasks.get(id).getEndTime();
-            }
-        }
-        if (endTime == LocalDateTime.MIN) {
-            return null;
-        }
-        return endTime;
     }
 }

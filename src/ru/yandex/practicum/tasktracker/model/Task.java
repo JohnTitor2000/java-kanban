@@ -3,6 +3,7 @@ package ru.yandex.practicum.tasktracker.model;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Task {
     private String title;
@@ -21,13 +22,13 @@ public class Task {
     }
 
     public LocalDateTime getStartTime() {
-        if (startTime == null) {
-            return LocalDateTime.MIN;
-        }
         return startTime;
     }
 
     public LocalDateTime getEndTime() {
+        if (startTime == null || duration == null) {
+            return null;
+        }
         return startTime.plus(duration);
     }
 
@@ -97,7 +98,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "ru.yandex.practicum.tasklistapp.Task{" +
+        return getClass().getName() +
                 "title='" + title + '\'' +
                 ", status=" + status +
                 ", description='" + description + '\'' +

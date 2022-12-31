@@ -3,7 +3,6 @@ package ru.yandex.practicum.tasktracker.model;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Optional;
 
 public class Task {
     private String title;

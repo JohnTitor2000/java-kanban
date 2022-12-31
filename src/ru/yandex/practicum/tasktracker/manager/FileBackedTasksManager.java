@@ -16,10 +16,10 @@ import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
-    private static final String CVS_HEADER = "id,type,name,status,description,epic";
+    private static final String CSV_HEADER = "id,type,name,status,description,epic";
     public final File file;
 
-    public FileBackedTasksManager(File file){
+    public FileBackedTasksManager(File file) {
         this.file = file;
     }
 
@@ -124,7 +124,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 String line = reader.readLine();
                 if (line.isEmpty()) {
                     break;
-                } else if (line.equals(CVS_HEADER)) {
+                } else if (line.equals(CSV_HEADER)) {
                     continue;
                 }
                 Task task = FileBackedTasksManager.fromString(line);
@@ -165,7 +165,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private void save() {
         try (Writer writer = new FileWriter(file)) {
-            writer.write(CVS_HEADER + "\n");
+            writer.write(CSV_HEADER + "\n");
             for (Task task : this.getTasks()) {
                 writer.write(toString(task) + "\n");
             }

@@ -76,7 +76,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest {
         fileBackedTasksManager.getSubTaskById(3);
 
         try (BufferedReader readerActual= new BufferedReader(new FileReader(new File("resources/expectedSaveTest.cvs"), StandardCharsets.UTF_8));
-                BufferedReader readerExpected = new BufferedReader(new FileReader(new File("resources/saveTest.csv"), StandardCharsets.UTF_8))){
+                BufferedReader readerExpected = new BufferedReader(new FileReader(new File("resources/saveTest.csv"), StandardCharsets.UTF_8))) {
             while (readerActual.ready() && readerExpected.ready()) {
                 assertEquals(readerExpected.readLine(), readerActual.readLine(), "Строчки не совпадают");
             }

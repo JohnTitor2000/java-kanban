@@ -40,7 +40,7 @@ public class InMemoryTaskManager implements TaskManager {
         generatorId = 0;
     }
 
-    public TreeSet<Task> getPrioritizedTasks(){
+    public TreeSet<Task> getPrioritizedTasks() {
         return prioritizedTasks;
     }
 

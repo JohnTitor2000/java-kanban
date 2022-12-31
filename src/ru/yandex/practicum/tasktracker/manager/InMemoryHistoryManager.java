@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InMemoryHistoryManager implements HistoryManager{
+public class InMemoryHistoryManager implements HistoryManager {
 
     private final Map<Integer, Node> idsToNode = new HashMap<>();
     private Node first;
@@ -56,21 +56,18 @@ public class InMemoryHistoryManager implements HistoryManager{
         Node oldNode = idsToNode.get(id);
         final Node next = oldNode.next;
         final Node prev = oldNode.previous;
-
         if (prev == null) {
             first = next;
         } else {
             prev.next = next;
             oldNode.previous = null;
         }
-
         if (next == null) {
             last = prev;
         } else {
             next.previous = prev;
             oldNode.next = null;
         }
-
         oldNode.task = null;
     }
 

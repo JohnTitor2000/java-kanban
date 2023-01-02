@@ -1,8 +1,6 @@
-id,type,name,status,description,epic
-1,TASK,Task1,NEW,Description task1,
-4,TASK,Test Task Title,NEW,Test Task Description,
-5,TASK,Test Task Title,NEW,Test Task Description,
+id,type,name,status,description,startTime,duration,epic
+1,TASK,Task1,NEW,Description task1,2011-12-03T10:15:30,PT10H,
 2,EPIC,Epic2,DONE,Description epic2,
 3,SUBTASK,Sub Task2,DONE,Description sub task3,2,
 
-2,3,1,5
+3,2,1

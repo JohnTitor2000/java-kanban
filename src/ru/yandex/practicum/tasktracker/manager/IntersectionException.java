@@ -1,7 +1,7 @@
 package ru.yandex.practicum.tasktracker.manager;
 
-public class IntersectionException extends RuntimeException{
-    public IntersectionException(String message, Throwable cause) {
-        super(message, cause);
+public class IntersectionException extends RuntimeException {
+    public IntersectionException(String message) {
+        super(message);
     }
 }

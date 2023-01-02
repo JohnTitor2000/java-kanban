@@ -11,13 +11,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
-    private static final String CSV_HEADER = "id,type,name,status,description,epic";
-    public final File file;
+    private static final String CSV_HEADER = "id,type,name,status,description,startTime,duration,epic";
+    private final File file;
 
     public FileBackedTasksManager(File file) {
         this.file = file;
@@ -189,6 +192,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             .append(task.getTitle() + ",")
             .append(task.getStatus() + ",")
             .append(task.getDescription() + ",");
+        if(task.getStartTime() != null) {
+            line.append(task.getStartTime() + ",")
+                .append(task.getDuration() + ",");
+        }
         if (task.getType() == TaskType.SUBTASK) {
             SubTask sb = (SubTask) task;
             line.append(sb.getEpicId() + ",");
@@ -210,13 +217,21 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 task = new SubTask();
                 break;
         }
+        if (values.length == 8 || values.length == 7) {
+            task.setStartTime(LocalDateTime.parse(values[5], DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            task.setDuration(Duration.parse(values[6])); //ISO-8601 duration format
+        }
         task.setId(Integer.parseInt(values[0]));
         task.setTitle(values[2]);
         task.setStatus(Status.valueOf(values[3]));
         task.setDescription(values[4]);
         if (values[1].equals("SUBTASK")) {
             SubTask subTask = (SubTask) task;
-            subTask.setEpicId(Integer.parseInt(values[5]));
+            if (values.length == 8) {
+                subTask.setEpicId(Integer.parseInt(values[7]));
+            } else {
+                subTask.setEpicId(Integer.parseInt(values[5]));
+            }
             return subTask;
         }
         return task;

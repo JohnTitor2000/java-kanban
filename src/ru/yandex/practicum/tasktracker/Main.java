@@ -1,18 +1,14 @@
 package ru.yandex.practicum.tasktracker;
 
 import ru.yandex.practicum.tasktracker.manager.FileBackedTasksManager;
-import ru.yandex.practicum.tasktracker.model.Epic;
 import ru.yandex.practicum.tasktracker.model.Task;
-
 import java.io.File;
-import java.time.LocalDateTime;
+import static ru.yandex.practicum.tasktracker.manager.FileBackedTasksManager.loadFromFile;
 
 class Main {
     public static void main(String[] args) {
-        FileBackedTasksManager fileBackedTasksManager =FileBackedTasksManager.loadFromFile(new File("resources\\tasks.csv"));
-        Epic task = new Epic();
-        task.setStartTime(LocalDateTime.now());
-        fileBackedTasksManager.addEpic(task);
+        FileBackedTasksManager fileBackedTasksManager = loadFromFile(new File("resources\\tasks.csv"));
+        System.out.println(fileBackedTasksManager.getTaskById(1));
     }
 
     private static Task task(int id) {

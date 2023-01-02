@@ -97,11 +97,13 @@ public class Task {
 
     @Override
     public String toString() {
-        return getClass().getName() +
+        return "Task{" +
                 "title='" + title + '\'' +
                 ", status=" + status +
                 ", description='" + description + '\'' +
                 ", id=" + id +
+                ", duration=" + duration +
+                ", startTime=" + startTime +
                 '}';
     }
 }

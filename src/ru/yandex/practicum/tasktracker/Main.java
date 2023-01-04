@@ -7,8 +7,8 @@ import static ru.yandex.practicum.tasktracker.manager.FileBackedTasksManager.loa
 
 class Main {
     public static void main(String[] args) {
-        FileBackedTasksManager fileBackedTasksManager = loadFromFile(new File("resources\\tasks.csv"));
-        System.out.println(fileBackedTasksManager.getTaskById(1));
+        int[] nums = {1, 2, 3, 4, 5};
+        int length = nums.length;
     }
 
     private static Task task(int id) {

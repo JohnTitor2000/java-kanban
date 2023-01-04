@@ -87,12 +87,14 @@ public class Task {
         return getId() == task.getId()
                 && Objects.equals(getTitle(), task.getTitle())
                 && getStatus() == task.getStatus()
-                && Objects.equals(getDescription(), task.getDescription());
+                && Objects.equals(getDescription(), task.getDescription())
+                && Objects.equals(getStartTime(), task.getStartTime())
+                && Objects.equals(getDuration(), task.getDuration());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTitle(), getStatus(), getDescription(), getId());
+        return Objects.hash(getTitle(), getStatus(), getDescription(), getId(), getStartTime(), getDuration());
     }
 
     @Override

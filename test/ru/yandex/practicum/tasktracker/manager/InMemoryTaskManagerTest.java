@@ -1,5 +1,6 @@
+package ru.yandex.practicum.tasktracker.manager;
+
 import org.junit.jupiter.api.BeforeEach;
-import ru.yandex.practicum.tasktracker.manager.Managers;
 
 class InMemoryTaskManagerTest extends TaskManagerTest {
     @BeforeEach

@@ -1,7 +1,8 @@
+package ru.yandex.practicum.tasktracker.manager;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.tasktracker.manager.FileBackedTasksManager;
 import ru.yandex.practicum.tasktracker.model.Epic;
 import ru.yandex.practicum.tasktracker.model.Status;
 import ru.yandex.practicum.tasktracker.model.SubTask;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.yandex.practicum.tasktracker.manager.FileBackedTasksManager.loadFromFile;
 
 class FileBackedTasksManagerTest extends TaskManagerTest {
@@ -74,14 +75,12 @@ class FileBackedTasksManagerTest extends TaskManagerTest {
         fileBackedTasksManager.addSubTask(subTask);
         fileBackedTasksManager.getEpicById(2);
         fileBackedTasksManager.getSubTaskById(3);
-
         try (BufferedReader readerActual= new BufferedReader(new FileReader(new File("resources/expectedSaveTest.cvs"), StandardCharsets.UTF_8));
                 BufferedReader readerExpected = new BufferedReader(new FileReader(new File("resources/saveTest.csv"), StandardCharsets.UTF_8))) {
-            while (readerActual.ready() && readerExpected.ready()) {
+            while (readerExpected.ready()) {
                 assertEquals(readerExpected.readLine(), readerActual.readLine(), "Строчки не совпадают");
             }
         }
         Files.write(Path.of("resources/saveTest.csv"), new byte[] {});
     }
-
 }

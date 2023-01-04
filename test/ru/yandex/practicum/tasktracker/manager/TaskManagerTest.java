@@ -1,5 +1,6 @@
+package ru.yandex.practicum.tasktracker.manager;
+
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.tasktracker.manager.TaskManager;
 import ru.yandex.practicum.tasktracker.model.Epic;
 import ru.yandex.practicum.tasktracker.model.Status;
 import ru.yandex.practicum.tasktracker.model.SubTask;
@@ -9,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static ru.yandex.practicum.tasktracker.model.Status.NEW;
 
 abstract class TaskManagerTest {
-    TaskManager taskManager;
+    protected TaskManager taskManager;
 
     @Test
     void updateEpicStatus_shouldUpdateEpicStatusToNew_ifEpicDoesNotHaveSubtasks() {

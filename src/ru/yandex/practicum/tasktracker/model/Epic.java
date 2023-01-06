@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Epic extends Task {
 
     private final List<Integer> subTaskIds = new ArrayList<>();
-    LocalDateTime endTime;
+    private LocalDateTime endTime;
 
     public List<Integer> getSubTaskIds() {
         return Collections.unmodifiableList(subTaskIds);

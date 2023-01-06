@@ -2,9 +2,7 @@ package ru.yandex.practicum.tasktracker.manager;
 
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.tasktracker.model.Task;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class HistoryManagerTest {

@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;import ru.yandex.practicum.tasktracker.model.E
 import ru.yandex.practicum.tasktracker.model.Status;
 import ru.yandex.practicum.tasktracker.model.SubTask;
 import ru.yandex.practicum.tasktracker.model.Task;
+
+import java.io.IOException;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.yandex.practicum.tasktracker.model.Status.NEW;
@@ -12,14 +14,14 @@ abstract class TaskManagerTest {
     protected TaskManager taskManager;
 
     @Test
-    void updateEpicStatus_shouldUpdateEpicStatusToNew_ifEpicDoesNotHaveSubtasks() {
+    void updateEpicStatus_shouldUpdateEpicStatusToNew_ifEpicDoesNotHaveSubtasks() throws IOException, InterruptedException {
         Epic testEpic = new Epic();
         taskManager.addEpic(testEpic);
         assertEquals(NEW, taskManager.getEpicById(1).getStatus(), "Статус эпика не соответствует сабтаскам");
     }
 
     @Test
-    void updateEpicStatus_shouldUpdateEpicStatusToNew_ifEpicHaveOnlyNewSubtasks() {
+    void updateEpicStatus_shouldUpdateEpicStatusToNew_ifEpicHaveOnlyNewSubtasks() throws IOException, InterruptedException {
         Epic testEpic = new Epic();
         taskManager.addEpic(testEpic);
         SubTask sb1 = new SubTask();
@@ -32,7 +34,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void updateEpicStatus_shouldUpdateEpicStatusToDone_ifEpicHaveOnlyDoneSubtasks() {
+    void updateEpicStatus_shouldUpdateEpicStatusToDone_ifEpicHaveOnlyDoneSubtasks() throws IOException, InterruptedException {
         Epic testEpic = new Epic();
         taskManager.addEpic(testEpic);
         SubTask sb1 = new SubTask();
@@ -47,7 +49,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void updateEpicStatus_shouldUpdateEpicStatusToInProgress_ifEpicHaveDoneAndNewSubtasks() {
+    void updateEpicStatus_shouldUpdateEpicStatusToInProgress_ifEpicHaveDoneAndNewSubtasks() throws IOException, InterruptedException {
         Epic testEpic = new Epic();
         taskManager.addEpic(testEpic);
         SubTask sb1 = new SubTask();
@@ -61,7 +63,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void updateEpicStatus_shouldUpdateEpicStatusToInProgress_ifEpicHaveOnlyInProgressSubtasks() {
+    void updateEpicStatus_shouldUpdateEpicStatusToInProgress_ifEpicHaveOnlyInProgressSubtasks() throws IOException, InterruptedException {
         Epic testEpic = new Epic();
         taskManager.addEpic(testEpic);
         SubTask sb1 = new SubTask();
@@ -76,7 +78,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void addTask_shouldAddTask_ifMapEmpty() {
+    void addTask_shouldAddTask_ifMapEmpty() throws IOException, InterruptedException {
         Task task = new Task();
         task.setTitle("Test Task Title");
         task.setDescription("Test Task Description");
@@ -91,7 +93,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void addTask_shouldAddTask_ifMapNotEmpty() {
+    void addTask_shouldAddTask_ifMapNotEmpty() throws IOException, InterruptedException {
         Task task = new Task();
         task.setTitle("Test Task Title");
         task.setDescription("Test Task Description");
@@ -108,7 +110,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void addEpic_shouldAddEpic_ifEpicsMapEmpty() {
+    void addEpic_shouldAddEpic_ifEpicsMapEmpty() throws IOException, InterruptedException {
         Epic epic = new Epic();
         epic.setTitle("Test Epic Title");
         epic.setDescription("Test Epic Description");
@@ -123,7 +125,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void addEpic_shouldAddEpic_ifEpicsMapNotEmpty() {
+    void addEpic_shouldAddEpic_ifEpicsMapNotEmpty() throws IOException, InterruptedException {
         Epic epic = new Epic();
         epic.setTitle("Test Epic Title");
         epic.setDescription("Test Epic Description");
@@ -140,7 +142,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void addSubTask_shouldAddSubTask_ifSubTaskEmpty() {
+    void addSubTask_shouldAddSubTask_ifSubTaskEmpty() throws IOException, InterruptedException {
         Epic epic = new Epic();
         taskManager.addEpic(epic);
         SubTask subTask = new SubTask();
@@ -158,7 +160,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void addSubTask_shouldAddSubTask_ifSubTaskNotEmpty() {
+    void addSubTask_shouldAddSubTask_ifSubTaskNotEmpty() throws IOException, InterruptedException {
         Epic epic = new Epic();
         taskManager.addEpic(epic);
         SubTask subTask1 = new SubTask();
@@ -182,7 +184,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void removeAllTasks_shouldRemoveAllTasks_ifTaskMapNotEmpty() {
+    void removeAllTasks_shouldRemoveAllTasks_ifTaskMapNotEmpty() throws IOException, InterruptedException {
         Task testTask1 = new Task();
         Task testTask2 = new Task();
         taskManager.addTask(testTask1);
@@ -192,13 +194,13 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void removeAllTasks_shouldRemoveAllTasks_ifTaskMapEmpty() {
+    void removeAllTasks_shouldRemoveAllTasks_ifTaskMapEmpty() throws IOException, InterruptedException {
         taskManager.removeAllTasks();
         assertEquals(0, taskManager.getTasks().size(), "Список тасков не очищается");
     }
 
     @Test
-    void removeAllEpics_shouldRemoveAllEpicsAndTheirSubTasks_ifEpicsMapNotEmpty() {
+    void removeAllEpics_shouldRemoveAllEpicsAndTheirSubTasks_ifEpicsMapNotEmpty() throws IOException, InterruptedException {
         Epic testEpic1 = new Epic();
         Epic testEpic2 = new Epic();
         taskManager.addEpic(testEpic1);
@@ -215,7 +217,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void removeAllEpics_shouldRemoveAllEpics_ifEpicsWithoutSubTask() {
+    void removeAllEpics_shouldRemoveAllEpics_ifEpicsWithoutSubTask() throws IOException, InterruptedException {
         Epic testEpic1 = new Epic();
         Epic testEpic2 = new Epic();
         taskManager.addEpic(testEpic1);
@@ -226,7 +228,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void getTaskById_shouldReturnTask() {
+    void getTaskById_shouldReturnTask() throws IOException, InterruptedException {
         Task task = new Task();
         task.setTitle("Test task title");
         task.setDescription("Test Task description");
@@ -236,7 +238,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void getTaskById_shouldReturnNull_ifIdIncorrect() {
+    void getTaskById_shouldReturnNull_ifIdIncorrect() throws IOException, InterruptedException {
         Task task = new Task();
         task.setTitle("Test task title");
         task.setDescription("Test Task description");
@@ -245,12 +247,12 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void getTaskById_shouldReturnNull_ifTaskMapEmpty() {
+    void getTaskById_shouldReturnNull_ifTaskMapEmpty() throws IOException, InterruptedException {
         assertNull(taskManager.getTaskById(10), "Найдена несуществующая задача");
     }
 
     @Test
-    void getEpicById_shouldReturnEpic() {
+    void getEpicById_shouldReturnEpic() throws IOException, InterruptedException {
         Epic epic = new Epic();
         epic.setTitle("Test epic title");
         epic.setDescription("Test epic description");
@@ -260,7 +262,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void getEpicById_shouldReturnNull_ifIncorrectId() {
+    void getEpicById_shouldReturnNull_ifIncorrectId() throws IOException, InterruptedException {
         Epic epic = new Epic();
         epic.setTitle("Test epic title");
         epic.setDescription("Test epic description");
@@ -269,7 +271,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void getSubTaskById_shouldReturnSubTask() {
+    void getSubTaskById_shouldReturnSubTask() throws IOException, InterruptedException {
         Epic epic = new Epic();
         taskManager.addEpic(epic);
         SubTask subTask = new SubTask();
@@ -283,7 +285,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void removeTaskById_shouldRemoveTask_ifCorrectId() {
+    void removeTaskById_shouldRemoveTask_ifCorrectId() throws IOException, InterruptedException {
         Task testTask = new Task();
         taskManager.addTask(testTask);
         taskManager.removeTaskById(testTask.getId());
@@ -291,7 +293,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void removeTaskById_shouldRemoveNothing_ifIncorrectId() {
+    void removeTaskById_shouldRemoveNothing_ifIncorrectId() throws IOException, InterruptedException {
         Task testTask = new Task();
         taskManager.addTask(testTask);
         taskManager.removeTaskById(10);
@@ -299,7 +301,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void removeEpicById_shouldRemoveEpicAndHisSubTask_ifCorrectId() {
+    void removeEpicById_shouldRemoveEpicAndHisSubTask_ifCorrectId() throws IOException, InterruptedException {
         Epic epic = new Epic();
         SubTask subTask = new SubTask();
         subTask.setEpicId(1);
@@ -311,7 +313,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void removeEpicById_shouldRemoveNothing_ifIncorrectId() {
+    void removeEpicById_shouldRemoveNothing_ifIncorrectId() throws IOException, InterruptedException {
         Epic epic = new Epic();
         SubTask subTask = new SubTask();
         subTask.setEpicId(1);
@@ -324,7 +326,7 @@ abstract class TaskManagerTest {
 
 
     @Test
-    void removeSubTaskById_shouldRemoveSubTaskAndHisIdFromSubTaskListInHisEpic() {
+    void removeSubTaskById_shouldRemoveSubTaskAndHisIdFromSubTaskListInHisEpic() throws IOException, InterruptedException {
         Epic epic = new Epic();
         taskManager.addEpic(epic);
         SubTask subTask = new SubTask();
@@ -336,7 +338,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void removeSubTaskById_shouldRemoveNothing_ifIncorrectId() {
+    void removeSubTaskById_shouldRemoveNothing_ifIncorrectId() throws IOException, InterruptedException {
         Epic epic = new Epic();
         taskManager.addEpic(epic);
         SubTask subTask = new SubTask();
@@ -348,7 +350,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void updateTask_shouldUpdateTask() {
+    void updateTask_shouldUpdateTask() throws IOException, InterruptedException {
         Task testTask = new Task();
         testTask.setTitle("Test task Title");
         testTask.setDescription("Test task description");
@@ -362,7 +364,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void updateEpic_shouldUpdateEpic() {
+    void updateEpic_shouldUpdateEpic() throws IOException, InterruptedException {
         Epic epic = new Epic();
         epic.setTitle("Test Epic Title");
         epic.setDescription("Test Epic Description");
@@ -376,7 +378,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void updateSubTask_shouldUpdateSubTask() {
+    void updateSubTask_shouldUpdateSubTask() throws IOException, InterruptedException {
         Epic epic = new Epic();
         taskManager.addEpic(epic);
         SubTask subTask = new SubTask();
@@ -394,7 +396,7 @@ abstract class TaskManagerTest {
     }
 
     @Test
-    void getSubTasksByEpicId_shouldReturnListOfSubTasks() {
+    void getSubTasksByEpicId_shouldReturnListOfSubTasks() throws IOException, InterruptedException {
         Epic epic = new Epic();
         SubTask subTask1 = new SubTask();
         subTask1.setEpicId(1);

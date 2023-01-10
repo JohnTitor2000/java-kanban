@@ -1,4 +1,6 @@
 package ru.yandex.practicum.tasktracker.model;
+import com.google.gson.Gson;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;

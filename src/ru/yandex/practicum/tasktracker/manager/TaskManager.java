@@ -3,7 +3,10 @@ package ru.yandex.practicum.tasktracker.manager;
 import ru.yandex.practicum.tasktracker.model.Epic;
 import ru.yandex.practicum.tasktracker.model.SubTask;
 import ru.yandex.practicum.tasktracker.model.Task;
+
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 
 public interface TaskManager {
@@ -14,39 +17,45 @@ public interface TaskManager {
 
     List<SubTask> getSubTasks();
 
-    void addTask(Task task);
+    void addTask(Task task) throws IOException, InterruptedException;
 
-    void addEpic(Epic epic);
+    void addEpic(Epic epic) throws IOException, InterruptedException;
 
-    void addSubTask(SubTask subTask);
+    void addSubTask(SubTask subTask) throws IOException, InterruptedException;
 
-    void removeAllTasks();
+    void removeAllTasks() throws IOException, InterruptedException;
 
-    void removeAllEpics();
+    void removeAllEpics() throws IOException, InterruptedException;
 
-    void removeAllSubTasks();
+    void removeAllSubTasks() throws IOException, InterruptedException;
 
-    Task getTaskById(int id);
+    Task getTaskById(int id) throws IOException, InterruptedException;
 
-    Epic getEpicById(int id);
+    Epic getEpicById(int id) throws IOException, InterruptedException;
 
-    SubTask getSubTaskById(int id);
+    SubTask getSubTaskById(int id) throws IOException, InterruptedException;
 
-    void removeTaskById(int id);
+    void removeTaskById(int id) throws IOException, InterruptedException;
 
-    void removeEpicById(int id);
+    void removeEpicById(int id) throws IOException, InterruptedException;
 
-    void removeSubTaskById(int id);
+    void removeSubTaskById(int id) throws IOException, InterruptedException;
 
-    void updateTask(Task task);
+    void updateTask(Task task) throws IOException, InterruptedException;
 
-    void updateEpic(Epic epic);
+    void updateEpic(Epic epic) throws IOException, InterruptedException;
 
-    void updateSubTask(SubTask subTask);
+    void updateSubTask(SubTask subTask) throws IOException, InterruptedException;
 
     List<SubTask> getSubTasksByEpicId(int epicId);
 
     List<Task> getHistory();
 
     TreeSet<Task> getPrioritizedTasks();
+
+    Map<Integer, Task> getTasksWithIds();
+
+    Map<Integer, Epic> getEpicsWithIds();
+
+    Map<Integer, SubTask> getSubTasksWithIds();
 }

@@ -20,106 +20,109 @@ import java.util.List;
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private static final String CSV_HEADER = "id,type,name,status,description,startTime,duration,epic";
-    private final File file;
+    private File file;
 
     public FileBackedTasksManager(File file) {
         this.file = file;
     }
 
+    public FileBackedTasksManager() {
+    }
+
     @Override
-    public void addTask(Task task) {
+    public void addTask(Task task) throws IOException, InterruptedException {
         super.addTask(task);
         save();
     }
 
     @Override
-    public void addEpic(Epic epic) {
+    public void addEpic(Epic epic) throws IOException, InterruptedException {
         super.addEpic(epic);
         save();
     }
 
     @Override
-    public void addSubTask(SubTask subTask) {
+    public void addSubTask(SubTask subTask) throws IOException, InterruptedException {
         super.addSubTask(subTask);
         save();
     }
 
     @Override
-    public void removeAllTasks() {
+    public void removeAllTasks() throws IOException, InterruptedException {
         super.removeAllTasks();
         save();
     }
 
     @Override
-    public void removeAllEpics() {
+    public void removeAllEpics() throws IOException, InterruptedException {
         super.removeAllEpics();
         save();
     }
 
     @Override
-    public void removeAllSubTasks() {
+    public void removeAllSubTasks() throws IOException, InterruptedException {
         super.removeAllSubTasks();
         save();
     }
 
     @Override
-    public Task getTaskById(int id) {
+    public Task getTaskById(int id) throws IOException, InterruptedException {
         Task task = super.getTaskById(id);
         save();
         return task;
     }
 
     @Override
-    public Epic getEpicById(int id) {
+    public Epic getEpicById(int id) throws IOException, InterruptedException {
         Epic epic = super.getEpicById(id);
         save();
         return epic;
     }
 
     @Override
-    public SubTask getSubTaskById(int id) {
+    public SubTask getSubTaskById(int id) throws IOException, InterruptedException {
         SubTask subTask = super.getSubTaskById(id);
         save();
         return subTask;
     }
 
     @Override
-    public void removeTaskById(int id) {
+    public void removeTaskById(int id) throws IOException, InterruptedException {
         super.removeTaskById(id);
         save();
     }
 
     @Override
-    public void removeEpicById(int id) {
+    public void removeEpicById(int id) throws IOException, InterruptedException {
         super.removeEpicById(id);
         save();
     }
 
     @Override
-    public void removeSubTaskById(int id) {
+    public void removeSubTaskById(int id) throws IOException, InterruptedException {
         super.removeSubTaskById(id);
         save();
     }
 
     @Override
-    public void updateTask(Task task) {
+    public void updateTask(Task task) throws IOException, InterruptedException {
         super.updateTask(task);
         save();
     }
 
     @Override
-    public void updateEpic(Epic epic) {
+    public void updateEpic(Epic epic) throws IOException, InterruptedException {
         super.updateEpic(epic);
         save();
     }
 
     @Override
-    public void updateSubTask(SubTask subTask) {
+    public void updateSubTask(SubTask subTask) throws IOException, InterruptedException {
         super.updateSubTask(subTask);
         save();
     }
 
-    public static FileBackedTasksManager loadFromFile(File file) {
+    public static FileBackedTasksManager loadFromFile(File file) throws InterruptedException {
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
         int maxId = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
@@ -166,7 +169,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return fileBackedTasksManager;
     }
 
-    private void save() {
+    protected void save() throws IOException, InterruptedException {
         try (Writer writer = new FileWriter(file)) {
             writer.write(CSV_HEADER + "\n");
             for (Task task : this.getTasks()) {

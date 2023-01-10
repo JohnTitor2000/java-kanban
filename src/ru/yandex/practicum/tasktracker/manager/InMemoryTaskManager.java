@@ -4,6 +4,8 @@ import ru.yandex.practicum.tasktracker.model.Epic;
 import ru.yandex.practicum.tasktracker.model.Status;
 import ru.yandex.practicum.tasktracker.model.SubTask;
 import ru.yandex.practicum.tasktracker.model.Task;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,11 +16,11 @@ import java.util.TreeSet;
 
 public class InMemoryTaskManager implements TaskManager {
     protected static int generatorId;
-    private final HistoryManager historyManager;
-    private final Map<Integer, SubTask> subTasks;
-    private final Map<Integer, Epic> epics;
-    private final Map<Integer, Task> tasks;
-    private final TreeSet<Task> prioritizedTasks;
+    protected final HistoryManager historyManager;
+    protected final Map<Integer, SubTask> subTasks;
+    protected final Map<Integer, Epic> epics;
+    protected final Map<Integer, Task> tasks;
+    protected final TreeSet<Task> prioritizedTasks;
 
     public InMemoryTaskManager() {
         Comparator<Task> taskDateComparator = (o1, o2) -> {
@@ -58,7 +60,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void addTask(Task task) {
+    public void addTask(Task task) throws IOException, InterruptedException {
         checkIntersections(task);
         task.setId(generateId());
         tasks.put(task.getId(), task);
@@ -66,13 +68,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void addEpic(Epic epic) {
+    public void addEpic(Epic epic) throws IOException, InterruptedException {
         epic.setId(generateId());
         epics.put(epic.getId(), epic);
     }
 
     @Override
-    public void addSubTask(SubTask subTask) {
+    public void addSubTask(SubTask subTask) throws IOException, InterruptedException {
         checkIntersections(subTask);
         subTask.setId(generateId());
         epics.get(subTask.getEpicId()).addSubTaskId(subTask.getId());
@@ -82,7 +84,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void removeAllTasks() {
+    public void removeAllTasks() throws IOException, InterruptedException {
         for (int id : tasks.keySet()) {
             historyManager.remove(id);
         }
@@ -90,7 +92,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void removeAllEpics() {
+    public void removeAllEpics() throws IOException, InterruptedException {
         subTasks.keySet().forEach(historyManager::remove);
         epics.keySet().forEach(historyManager::remove);
         subTasks.clear();
@@ -98,7 +100,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void removeAllSubTasks() {
+    public void removeAllSubTasks() throws IOException, InterruptedException {
         for (int id : subTasks.keySet()) {
             historyManager.remove(id);
         }
@@ -110,31 +112,31 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task getTaskById(int id) {
+    public Task getTaskById(int id) throws IOException, InterruptedException {
         historyManager.add(tasks.get(id));
         return tasks.get(id);
     }
 
     @Override
-    public Epic getEpicById(int id) {
+    public Epic getEpicById(int id) throws IOException, InterruptedException {
         historyManager.add(epics.get(id));
         return epics.get(id);
     }
 
     @Override
-    public SubTask getSubTaskById(int id) {
+    public SubTask getSubTaskById(int id) throws IOException, InterruptedException {
         historyManager.add(subTasks.get(id));
         return subTasks.get(id);
     }
 
     @Override
-    public void removeTaskById(int id) {
+    public void removeTaskById(int id) throws IOException, InterruptedException {
         historyManager.remove(id);
         tasks.remove(id);
     }
 
     @Override
-    public void removeEpicById(int id) {
+    public void removeEpicById(int id) throws IOException, InterruptedException {
         historyManager.remove(id);
         if (epics.get(id) == null) {
             return;
@@ -148,7 +150,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void removeSubTaskById(int id) {
+    public void removeSubTaskById(int id) throws IOException, InterruptedException {
         historyManager.remove(id);
         if (subTasks.get(id) == null) {
             return;
@@ -160,12 +162,12 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void updateTask(Task task) {
+    public void updateTask(Task task) throws IOException, InterruptedException {
         tasks.put(task.getId(), task);
     }
 
     @Override
-    public void updateEpic(Epic epic) {
+    public void updateEpic(Epic epic) throws IOException, InterruptedException {
         epics.put(epic.getId(), epic);
         updateEpicStatus(epic.getId());
         updateEpicStartTime(epic.getId());
@@ -173,7 +175,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void updateSubTask(SubTask subTask) {
+    public void updateSubTask(SubTask subTask) throws IOException, InterruptedException {
         subTasks.put(subTask.getId(), subTask);
         updateEpic(epics.get(subTask.getEpicId()));
     }
@@ -197,15 +199,15 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager;
     }
 
-    protected Map<Integer, Task> getTasksWithIds() {
+    public Map<Integer, Task> getTasksWithIds() {
         return tasks;
     }
 
-    protected Map<Integer, Epic> getEpicsWithIds() {
+    public Map<Integer, Epic> getEpicsWithIds() {
         return epics;
     }
 
-    protected Map<Integer, SubTask> getSubTasksWithIds() {
+    public Map<Integer, SubTask> getSubTasksWithIds() {
         return subTasks;
     }
 

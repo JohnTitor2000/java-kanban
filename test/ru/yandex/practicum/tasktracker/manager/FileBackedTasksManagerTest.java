@@ -20,7 +20,7 @@ import static ru.yandex.practicum.tasktracker.manager.FileBackedTasksManager.loa
 class FileBackedTasksManagerTest extends TaskManagerTest {
 
     @BeforeEach
-    void initializationTaskManager() {
+    void initializationTaskManager() throws InterruptedException {
         taskManager = loadFromFile(new File("resources/tasksTest.csv"));
     }
 
@@ -30,7 +30,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest {
     }
 
     @Test
-    void loadFromFile_shouldInitializeCorrectFileBackedTasksManager() {
+    void loadFromFile_shouldInitializeCorrectFileBackedTasksManager() throws IOException, InterruptedException {
         FileBackedTasksManager fileBackedTasksManager = loadFromFile(new File("resources/loadFromFileTest.csv"));
         Task task = new Task();
         Epic epic = new Epic();
@@ -54,7 +54,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest {
     }
 
     @Test
-    void save_shouldWriteFileBackedTasksManagerDataInCvsFile() throws IOException {
+    void save_shouldWriteFileBackedTasksManagerDataInCvsFile() throws IOException, InterruptedException {
         Files.write(Path.of("resources/saveTest.csv"), new byte[] {});
         FileBackedTasksManager fileBackedTasksManager = loadFromFile(new File("resources/saveTest.csv"));
         Task task = new Task();

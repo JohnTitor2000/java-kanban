@@ -9,9 +9,10 @@ import java.net.http.HttpResponse;
 
 public class KVTaskClient {
 
-    private static final String LOAD_URI = "http://localhost:8078/load/";
-    private static final String SAVE_URI = "http://localhost:8078/save/";
-    private static final String API_TOKEN_PARAMETER = "?API_TOKEN=";
+    private static final String LOAD = "/load";
+    private static final String SAVE = "/save";
+    private static final String URL = "http://localhost:8078";
+    private static final String API_TOKEN_PARAMETER = "/?API_TOKEN=";
     private final HttpRequest registerRequest;
     private final HttpClient client;
     private final String apiToken;
@@ -32,7 +33,7 @@ public class KVTaskClient {
     }
 
     public void put(String key, String json) throws IOException, InterruptedException {
-        URI uri = URI.create(SAVE_URI + key + API_TOKEN_PARAMETER + apiToken);
+        URI uri = URI.create(URL + SAVE + key + API_TOKEN_PARAMETER + apiToken);
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(json))
                 .uri(uri)
@@ -44,7 +45,7 @@ public class KVTaskClient {
     }
 
     public String load(String key) throws IOException, InterruptedException {
-        URI uri = URI.create(LOAD_URI + key + API_TOKEN_PARAMETER + apiToken);
+        URI uri = URI.create(URL + LOAD + key + API_TOKEN_PARAMETER + apiToken);
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(uri)

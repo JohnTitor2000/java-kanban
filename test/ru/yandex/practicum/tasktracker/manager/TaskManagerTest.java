@@ -79,9 +79,7 @@ abstract class TaskManagerTest {
 
     @Test
     void addTask_shouldAddTask_ifMapEmpty() throws IOException, InterruptedException {
-        Task task = new Task();
-        task.setTitle("Test Task Title");
-        task.setDescription("Test Task Description");
+        Task task = createTask("Test Epic Title", "Test Epic Description");
         taskManager.addTask(task);
         Task savedTask = taskManager.getTaskById(task.getId());
         assertNotNull(savedTask, "Задача не найдена.");
@@ -94,9 +92,7 @@ abstract class TaskManagerTest {
 
     @Test
     void addTask_shouldAddTask_ifMapNotEmpty() throws IOException, InterruptedException {
-        Task task = new Task();
-        task.setTitle("Test Task Title");
-        task.setDescription("Test Task Description");
+        Task task = createTask("Test Epic Title", "Test Epic Description");
         taskManager.addTask(new Task());
         taskManager.addTask(new Task());
         taskManager.addTask(task);
@@ -111,9 +107,7 @@ abstract class TaskManagerTest {
 
     @Test
     void addEpic_shouldAddEpic_ifEpicsMapEmpty() throws IOException, InterruptedException {
-        Epic epic = new Epic();
-        epic.setTitle("Test Epic Title");
-        epic.setDescription("Test Epic Description");
+        Epic epic = createEpic("Test Epic Title", "Test Epic Description", new int[] {});
         taskManager.addEpic(epic);
         Epic savedEpic = taskManager.getEpicById(epic.getId());
         assertNotNull(savedEpic, "Задача не найдена.");
@@ -126,9 +120,7 @@ abstract class TaskManagerTest {
 
     @Test
     void addEpic_shouldAddEpic_ifEpicsMapNotEmpty() throws IOException, InterruptedException {
-        Epic epic = new Epic();
-        epic.setTitle("Test Epic Title");
-        epic.setDescription("Test Epic Description");
+        Epic epic = createEpic("Test Epic Title", "Test Epic Description", new int[] {});
         taskManager.addEpic(new Epic());
         taskManager.addEpic(new Epic());
         taskManager.addEpic(epic);
@@ -229,9 +221,7 @@ abstract class TaskManagerTest {
 
     @Test
     void getTaskById_shouldReturnTask() throws IOException, InterruptedException {
-        Task task = new Task();
-        task.setTitle("Test task title");
-        task.setDescription("Test Task description");
+        Task task = createTask("Test task title", "Test Task description");
         taskManager.addTask(task);
         assertEquals(task, taskManager.getTaskById(1), "Задачи не совпадают");
         assertNotNull(taskManager.getTaskById(1), "Задача не найдена");
@@ -239,9 +229,7 @@ abstract class TaskManagerTest {
 
     @Test
     void getTaskById_shouldReturnNull_ifIdIncorrect() throws IOException, InterruptedException {
-        Task task = new Task();
-        task.setTitle("Test task title");
-        task.setDescription("Test Task description");
+        Task task = createTask("Test task title", "Test Task description");
         taskManager.addTask(task);
         assertNull(taskManager.getTaskById(10), "Найдена несуществующая задача");
     }
@@ -253,9 +241,7 @@ abstract class TaskManagerTest {
 
     @Test
     void getEpicById_shouldReturnEpic() throws IOException, InterruptedException {
-        Epic epic = new Epic();
-        epic.setTitle("Test epic title");
-        epic.setDescription("Test epic description");
+        Epic epic = createEpic("Test epic title", "Test epic description", new int[] {});
         taskManager.addEpic(epic);
         assertEquals(epic, taskManager.getEpicById(epic.getId()), "Задачи не совпадают");
         assertNotNull(taskManager.getEpicById(epic.getId()), "Задача не найдена");
@@ -263,9 +249,7 @@ abstract class TaskManagerTest {
 
     @Test
     void getEpicById_shouldReturnNull_ifIncorrectId() throws IOException, InterruptedException {
-        Epic epic = new Epic();
-        epic.setTitle("Test epic title");
-        epic.setDescription("Test epic description");
+        Epic epic = createEpic("Test epic title", "Test epic description", new int[] {});
         taskManager.addEpic(epic);
         assertNull(taskManager.getEpicById(2), "Задачи не совпадают");
     }
@@ -274,10 +258,7 @@ abstract class TaskManagerTest {
     void getSubTaskById_shouldReturnSubTask() throws IOException, InterruptedException {
         Epic epic = new Epic();
         taskManager.addEpic(epic);
-        SubTask subTask = new SubTask();
-        subTask.setTitle("Test subTask title");
-        subTask.setDescription("Test subTask description");
-        subTask.setEpicId(epic.getId());
+        SubTask subTask = createSubTask("Test subTask title","Test subTask description", NEW, epic.getId());
         taskManager.addSubTask(subTask);
         assertEquals(subTask, taskManager.getSubTaskById(subTask.getId()), "Задачи не совпадают");
         assertNotNull(taskManager.getSubTaskById(subTask.getId()), "Задача не найдена");
@@ -410,5 +391,31 @@ abstract class TaskManagerTest {
         taskManager.addSubTask(subTask3);
         List<SubTask> subTasksByEpicId = taskManager.getSubTasksByEpicId(1);
         assertArrayEquals(new SubTask[]{subTask1, subTask2, subTask3}, subTasksByEpicId.toArray());
+    }
+
+    protected Task createTask(String title, String description) {
+        Task task = new Task();
+        task.setTitle(title);
+        task.setDescription(description);
+        return task;
+    }
+
+    protected Epic createEpic(String title, String description, int[] subTasksIds) {
+        Epic epic = new Epic();
+        epic.setTitle(title);
+        epic.setDescription(description);
+        for (int id : subTasksIds) {
+            epic.addSubTaskId(id);
+        }
+        return epic;
+    }
+
+    protected SubTask createSubTask(String title, String description, Status status, int epicId) {
+        SubTask subTask = new SubTask();
+        subTask.setTitle(title);
+        subTask.setDescription(description);
+        subTask.setStatus(status);
+        subTask.setEpicId(epicId);
+        return subTask;
     }
 }

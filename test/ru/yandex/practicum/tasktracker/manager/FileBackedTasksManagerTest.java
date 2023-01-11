@@ -32,21 +32,12 @@ class FileBackedTasksManagerTest extends TaskManagerTest {
     @Test
     void loadFromFile_shouldInitializeCorrectFileBackedTasksManager() throws IOException, InterruptedException {
         FileBackedTasksManager fileBackedTasksManager = loadFromFile(new File("resources/loadFromFileTest.csv"));
-        Task task = new Task();
-        Epic epic = new Epic();
-        SubTask subTask = new SubTask();
-        subTask.setEpicId(2);
+        Task task = createTask("Task1", "Description task1");
+        Epic epic = createEpic("Epic2", "Description epic2", new int[] {3});
+        SubTask subTask = createSubTask("Sub Task2", "Description sub task3", Status.DONE, 2);
         task.setId(1);
-        task.setTitle("Task1");
-        task.setDescription("Description task1");
         epic.setId(2);
-        epic.setTitle("Epic2");
-        epic.setDescription("Description epic2");
-        epic.addSubTaskId(3);
         subTask.setId(3);
-        subTask.setStatus(Status.DONE);
-        subTask.setTitle("Sub Task2");
-        subTask.setDescription("Description sub task3");
         epic.setStatus(Status.DONE);
         assertEquals(task, fileBackedTasksManager.getTaskById(1), "Таск не соответствует заданому");
         assertEquals(epic, fileBackedTasksManager.getEpicById(2), "Эпик не соответствует заданому");
@@ -57,18 +48,9 @@ class FileBackedTasksManagerTest extends TaskManagerTest {
     void save_shouldWriteFileBackedTasksManagerDataInCvsFile() throws IOException, InterruptedException {
         Files.write(Path.of("resources/saveTest.csv"), new byte[] {});
         FileBackedTasksManager fileBackedTasksManager = loadFromFile(new File("resources/saveTest.csv"));
-        Task task = new Task();
-        Epic epic = new Epic();
-        SubTask subTask = new SubTask();
-        subTask.setEpicId(2);
-        task.setTitle("Task1");
-        task.setDescription("Description task1");
-        epic.setTitle("Epic2");
-        epic.setDescription("Description epic2");
-        epic.addSubTaskId(3);
-        subTask.setStatus(Status.DONE);
-        subTask.setTitle("Sub Task2");
-        subTask.setDescription("Description sub task3");
+        Task task = createTask("Task1", "Description task1");
+        Epic epic = createEpic("Epic2", "Description epic2", new int[] {3});
+        SubTask subTask = createSubTask("Sub Task2", "Description sub task3", Status.DONE, 2);
         epic.setStatus(Status.DONE);
         fileBackedTasksManager.addTask(task);
         fileBackedTasksManager.addEpic(epic);
